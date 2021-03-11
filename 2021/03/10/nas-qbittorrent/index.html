@@ -20,20 +20,26 @@
     var CONFIG = {"hostname":"poichigeon.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="设置了评论功能之后，在每个页面下方都会有评论模块，如何在指定页面禁用评论功能？ 只需在md文件添加如下代码 1comments: false">
+  <meta name="description" content="24小时开机的群晖NAS是一个理想的下载平台，这不赶紧部署一个torrent下载工具。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【hexo】指定页面不设置评论功能">
-<meta property="og:url" content="https://poichigeon.github.io/2021/03/10/page-without-comments/index.html">
+<meta property="og:title" content="【群晖NAS】qBittorrent的安装与使用">
+<meta property="og:url" content="https://poichigeon.github.io/2021/03/10/nas-qbittorrent/index.html">
 <meta property="og:site_name" content="你是无意穿堂风">
-<meta property="og:description" content="设置了评论功能之后，在每个页面下方都会有评论模块，如何在指定页面禁用评论功能？ 只需在md文件添加如下代码 1comments: false">
+<meta property="og:description" content="24小时开机的群晖NAS是一个理想的下载平台，这不赶紧部署一个torrent下载工具。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-03-10T07:38:14.000Z">
-<meta property="article:modified_time" content="2021-03-10T07:44:37.919Z">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_installation.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_search_result.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qbittorrent_dir.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/dir_property.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/dir_authority.png">
+<meta property="article:published_time" content="2021-03-10T09:14:50.000Z">
+<meta property="article:modified_time" content="2021-03-11T09:09:45.401Z">
 <meta property="article:author" content="Poichigeon">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="群晖NAS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_installation.png">
 
-<link rel="canonical" href="https://poichigeon.github.io/2021/03/10/page-without-comments/">
+<link rel="canonical" href="https://poichigeon.github.io/2021/03/10/nas-qbittorrent/">
 
 
 <script id="page-configurations">
@@ -46,7 +52,7 @@
   };
 </script>
 
-  <title>【hexo】指定页面不设置评论功能 | 你是无意穿堂风</title>
+  <title>【群晖NAS】qBittorrent的安装与使用 | 你是无意穿堂风</title>
   
 
 
@@ -162,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/03/10/page-without-comments/">
+    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/03/10/nas-qbittorrent/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headimg.png">
@@ -175,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【hexo】指定页面不设置评论功能
+          【群晖NAS】qBittorrent的安装与使用
         </h1>
 
         <div class="post-meta">
@@ -184,13 +190,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-03-10 15:38:14 / Modified: 15:44:37" itemprop="dateCreated datePublished" datetime="2021-03-10T15:38:14+08:00">2021-03-10</time>
+              <time title="Created: 2021-03-10 17:14:50" itemprop="dateCreated datePublished" datetime="2021-03-10T17:14:50+08:00">2021-03-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-11 17:09:45" itemprop="dateModified" datetime="2021-03-11T17:09:45+08:00">2021-03-11</time>
+              </span>
 
           
-            <span id="/2021/03/10/page-without-comments/" class="post-meta-item leancloud_visitors" data-flag-title="【hexo】指定页面不设置评论功能" title="Views">
+            <span id="/2021/03/10/nas-qbittorrent/" class="post-meta-item leancloud_visitors" data-flag-title="【群晖NAS】qBittorrent的安装与使用" title="Views">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -205,8 +217,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2021/03/10/page-without-comments/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/10/page-without-comments/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/03/10/nas-qbittorrent/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/10/nas-qbittorrent/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -221,9 +233,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>设置了评论功能之后，在每个页面下方都会有评论模块，如何在指定页面禁用评论功能？<br>
-只需在md文件添加如下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">comments: false</span><br></pre></td></tr></table></figure>
+        <p>24小时开机的群晖NAS是一个理想的下载平台，这不赶紧部署一个torrent下载工具。</p>
+<span id="more"></span>
+<h2 id="准备工作"><a class="header-anchor" href="#准备工作">¶</a>准备工作</h2>
+<h3 id="安装Docker"><a class="header-anchor" href="#安装Docker">¶</a>安装Docker</h3>
+<p>qBittorrent是以Docker的形式运行的，因此需要在套件中心安装Docker<br>
+<img src="/images/qBittorent_installation/docker_installation.png" alt="在套件中心安装Docker"></p>
+<h3 id="下载qBittorrent映像"><a class="header-anchor" href="#下载qBittorrent映像">¶</a>下载qBittorrent映像</h3>
+<p>安装完成后打开Docker,在注册表中搜索qbittorrent<br>
+<img src="/images/qBittorent_installation/docker_search_result.png" alt="docker注册表"><br>
+我曾经尝试过安装&quot;linuxserver/qbittorrent&quot;，但是遇到了一些问题，后来又尝试安装了&quot;johngong/qbittorrent&quot;，安装完成后能正常运行，因此本文以&quot;johngong/qbittorrent&quot;为例。<br>
+双击&quot;johngong/qbittorrent&quot;，等待弹出“选择标签”窗口，选择合适的版本，我的系统是64位，所以我安装了&quot;4.3.3_amd64&quot;这个版本<br>
+图形化界面下载docker映像可能速度很慢，可以sh连接NAS，执行以下命令进行下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">[input your password]</span><br><span class="line">docker pull johngong&#x2F;qbittorrent:[需要下载的标签]</span><br></pre></td></tr></table></figure>
+<p>例如，&quot;4.3.3_amd64&quot;这个版本的下载命令为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull johngong&#x2F;qbittorrent:4.3.3_amd64</span><br></pre></td></tr></table></figure>
+<h3 id="创建文件夹"><a class="header-anchor" href="#创建文件夹">¶</a>创建文件夹</h3>
+<p>在映像下载的过程中，可以创建qBittorrent需要用到的文件夹，文件夹的路径可以根据个人喜好创建<br>
+本人创建的目录如下<br>
+<img src="/images/qBittorent_installation/qbittorrent_dir.png" alt="文件目录"><br>
+config文件夹用于存放配置文件，downloads文件夹用于存放下载文件。<br>
+文件夹创建之后需要进行权限配置，在qbittorrent文件夹上点击右键，选择属性<br>
+<img src="/images/qBittorent_installation/dir_property.png" alt="属性"><br>
+然后依次执行下图所示操作，修改文件夹权限<br>
+<img src="/images/qBittorent_installation/dir_authority.png" alt="修改文件夹权限"></p>
+<h2 id="配置qBittorrent"><a class="header-anchor" href="#配置qBittorrent">¶</a>配置qBittorrent</h2>
+<p>准备工作做完之后，就可以进行qBittorrent配置</p>
+<h3 id="配置映像"><a class="header-anchor" href="#配置映像">¶</a>配置映像</h3>
+<p>双击下载好的qBittorrent映像<br>
+![qBittorrent映像]](/images/qBittorent_installation/docker_img.png)<br>
+点击高级设置<br>
+![高级设置]](/images/qBittorent_installation/qb_setting_1.png)<br>
+在第一个签页勾选“启用自动重新启动”<br>
+![自动重新启动]](/images/qBittorent_installation/qb_setting_2.png)<br>
+在“卷”这个签页，将创建的文件夹配置进去<br>
+![配置卷]](/images/qBittorent_installation/qb_setting_3.png)<br>
+在端口签页，按下图所示配置端口，端口可自行决定，后续操作会用到配置的端口<br>
+![端口配置]](/images/qBittorent_installation/qb_setting_4.png)<br>
+最后进行环境配置，需要修改的只有WEBUIPORT这项，将其配置为端口配置中的“10000”，有关环境配置的说明可以查阅<a target="_blank" rel="noopener" href="https://registry.hub.docker.com/r/johngong/qbittorrent/">官方文档</a><br>
+![环境配置]](/images/qBittorent_installation/qb_setting_5.png)<br>
+配置完成后点击应用，然后点击下一步<br>
+![下一步]](/images/qBittorent_installation/qb_setting_6.png)<br>
+在此界面查看一遍配置，确认无误后点击应用<br>
+![检查配置]](/images/qBittorent_installation/qb_setting_7.png)<br>
+此时在Docker的容器签页可以看到启动后的qBittorrent<br>
+![qBittorrent]](/images/qBittorent_installation/docker_qb.png)</p>
+<h3 id="qBittorrent的一些设置"><a class="header-anchor" href="#qBittorrent的一些设置">¶</a>qBittorrent的一些设置</h3>
+<p>qBittorrent已经启动，此时我们可以通过刚刚配置的WEBUIPORT访问qBittorrent的管理界面<br>
+在浏览器输入[nas的ip]:[WEBUIPORT]即可打开管理界面<br>
+![qBittorrent管理界面]](/images/qBittorent_installation/qb_manage.png)<br>
+管理员用户的默认用户名和密码均为admin<br>
+登入后点击如下按钮进行设置<br>
+![qBittorrent设置]](/images/qBittorent_installation/qb_setting_8.png)<br>
+将下载一栏的默认保存路径配置为我们配置在“卷”中的/downloads<br>
+![下载路径配置]](/images/qBittorent_installation/qb_setting_9.png)<br>
+将连接一栏的端口配置为之前配置好的“50040”<br>
+![端口配置]]](/images/qBittorent_installation/qb_setting_10.png)<br>
+至此，配置已经基本完成，可以通过qBittorrent进行下载了</p>
+<h2 id="常见问题"><a class="header-anchor" href="#常见问题">¶</a>常见问题</h2>
+<h3 id="下载速度慢"><a class="header-anchor" href="#下载速度慢">¶</a>下载速度慢</h3>
+<p>原因很多，可能是做种的用户不多，也可能是TRACKER对应的资源贫乏，github上有比较热门的trackers list,可以将其中的tracker添加到qBittorrent中<br>
+<a target="_blank" rel="noopener" href="https://github.com/ngosang/trackerslist">ngosang_trackerslist</a></p>
+<h3 id="使用磁力链接下载时一直卡在“下载元数据”"><a class="header-anchor" href="#使用磁力链接下载时一直卡在“下载元数据”">¶</a>使用磁力链接下载时一直卡在“下载元数据”</h3>
+<p>可能是qBittorrent对磁力链接解析力度不够(?)<br>
+然后我的操作是把磁力链接用迅雷下载，然后开始下载后点击对应的下载，右键选择下载种子文件，此时可以将torrent下载下来，然后在qBittorrent中使用torrent文件进行下载</p>
 
     </div>
 
@@ -233,7 +306,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/%E7%BE%A4%E6%99%96NAS/" rel="tag"># 群晖NAS</a>
           </div>
 
         
@@ -242,13 +315,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/08/comment-published/" rel="prev" title="评论功能上线啦！">
-      <i class="fa fa-chevron-left"></i> 评论功能上线啦！
+    <a href="/2021/03/10/page-without-comments/" rel="prev" title="【hexo】指定页面不设置评论功能">
+      <i class="fa fa-chevron-left"></i> 【hexo】指定页面不设置评论功能
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/10/nas-qbittorrent/" rel="next" title="【群晖NAS】qBittorrent的安装与使用">
-      【群晖NAS】qBittorrent的安装与使用 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -308,6 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Docker"><span class="nav-number">1.1.</span> <span class="nav-text">安装Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDqBittorrent%E6%98%A0%E5%83%8F"><span class="nav-number">1.2.</span> <span class="nav-text">下载qBittorrent映像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">1.3.</span> <span class="nav-text">创建文件夹</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEqBittorrent"><span class="nav-number">2.</span> <span class="nav-text">配置qBittorrent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%98%A0%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">配置映像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qBittorrent%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">qBittorrent的一些设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6%E6%85%A2"><span class="nav-number">3.1.</span> <span class="nav-text">下载速度慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A3%81%E5%8A%9B%E9%93%BE%E6%8E%A5%E4%B8%8B%E8%BD%BD%E6%97%B6%E4%B8%80%E7%9B%B4%E5%8D%A1%E5%9C%A8%E2%80%9C%E4%B8%8B%E8%BD%BD%E5%85%83%E6%95%B0%E6%8D%AE%E2%80%9D"><span class="nav-number">3.2.</span> <span class="nav-text">使用磁力链接下载时一直卡在“下载元数据”</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
