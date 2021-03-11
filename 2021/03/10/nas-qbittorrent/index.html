@@ -32,10 +32,23 @@
 <meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qbittorrent_dir.png">
 <meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/dir_property.png">
 <meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/dir_authority.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_img.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_1.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_2.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_3.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_4.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_5.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_6.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_7.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_qb.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_manage.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_8.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_9.png">
+<meta property="og:image" content="https://poichigeon.github.io/images/qBittorent_installation/qb_setting_10.png">
 <meta property="article:published_time" content="2021-03-10T09:14:50.000Z">
-<meta property="article:modified_time" content="2021-03-11T09:09:45.401Z">
+<meta property="article:modified_time" content="2021-03-11T09:13:58.332Z">
 <meta property="article:author" content="Poichigeon">
-<meta property="article:tag" content="群晖NAS">
+<meta property="article:tag" content="NAS">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://poichigeon.github.io/images/qBittorent_installation/docker_installation.png">
 
@@ -198,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-11 17:09:45" itemprop="dateModified" datetime="2021-03-11T17:09:45+08:00">2021-03-11</time>
+                <time title="Modified: 2021-03-11 17:13:58" itemprop="dateModified" datetime="2021-03-11T17:13:58+08:00">2021-03-11</time>
               </span>
 
           
@@ -261,34 +274,34 @@ config文件夹用于存放配置文件，downloads文件夹用于存放下载�
 <p>准备工作做完之后，就可以进行qBittorrent配置</p>
 <h3 id="配置映像"><a class="header-anchor" href="#配置映像">¶</a>配置映像</h3>
 <p>双击下载好的qBittorrent映像<br>
-![qBittorrent映像]](/images/qBittorent_installation/docker_img.png)<br>
+<img src="/images/qBittorent_installation/docker_img.png" alt="qBittorrent映像"><br>
 点击高级设置<br>
-![高级设置]](/images/qBittorent_installation/qb_setting_1.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_1.png" alt="高级设置"><br>
 在第一个签页勾选“启用自动重新启动”<br>
-![自动重新启动]](/images/qBittorent_installation/qb_setting_2.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_2.png" alt="自动重新启动"><br>
 在“卷”这个签页，将创建的文件夹配置进去<br>
-![配置卷]](/images/qBittorent_installation/qb_setting_3.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_3.png" alt="配置卷"><br>
 在端口签页，按下图所示配置端口，端口可自行决定，后续操作会用到配置的端口<br>
-![端口配置]](/images/qBittorent_installation/qb_setting_4.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_4.png" alt="端口配置"><br>
 最后进行环境配置，需要修改的只有WEBUIPORT这项，将其配置为端口配置中的“10000”，有关环境配置的说明可以查阅<a target="_blank" rel="noopener" href="https://registry.hub.docker.com/r/johngong/qbittorrent/">官方文档</a><br>
-![环境配置]](/images/qBittorent_installation/qb_setting_5.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_5.png" alt="环境配置"><br>
 配置完成后点击应用，然后点击下一步<br>
-![下一步]](/images/qBittorent_installation/qb_setting_6.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_6.png" alt="下一步"><br>
 在此界面查看一遍配置，确认无误后点击应用<br>
-![检查配置]](/images/qBittorent_installation/qb_setting_7.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_7.png" alt="检查配置"><br>
 此时在Docker的容器签页可以看到启动后的qBittorrent<br>
-![qBittorrent]](/images/qBittorent_installation/docker_qb.png)</p>
+<img src="/images/qBittorent_installation/docker_qb.png" alt="qBittorrent"></p>
 <h3 id="qBittorrent的一些设置"><a class="header-anchor" href="#qBittorrent的一些设置">¶</a>qBittorrent的一些设置</h3>
 <p>qBittorrent已经启动，此时我们可以通过刚刚配置的WEBUIPORT访问qBittorrent的管理界面<br>
 在浏览器输入[nas的ip]:[WEBUIPORT]即可打开管理界面<br>
-![qBittorrent管理界面]](/images/qBittorent_installation/qb_manage.png)<br>
+<img src="/images/qBittorent_installation/qb_manage.png" alt="qBittorrent管理界面"><br>
 管理员用户的默认用户名和密码均为admin<br>
 登入后点击如下按钮进行设置<br>
-![qBittorrent设置]](/images/qBittorent_installation/qb_setting_8.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_8.png" alt="qBittorrent设置"><br>
 将下载一栏的默认保存路径配置为我们配置在“卷”中的/downloads<br>
-![下载路径配置]](/images/qBittorent_installation/qb_setting_9.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_9.png" alt="下载路径配置"><br>
 将连接一栏的端口配置为之前配置好的“50040”<br>
-![端口配置]]](/images/qBittorent_installation/qb_setting_10.png)<br>
+<img src="/images/qBittorent_installation/qb_setting_10.png" alt="端口配置"><br>
 至此，配置已经基本完成，可以通过qBittorrent进行下载了</p>
 <h2 id="常见问题"><a class="header-anchor" href="#常见问题">¶</a>常见问题</h2>
 <h3 id="下载速度慢"><a class="header-anchor" href="#下载速度慢">¶</a>下载速度慢</h3>
@@ -306,7 +319,7 @@ config文件夹用于存放配置文件，downloads文件夹用于存放下载�
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%BE%A4%E6%99%96NAS/" rel="tag"># 群晖NAS</a>
+              <a href="/tags/NAS/" rel="tag"># NAS</a>
           </div>
 
         
