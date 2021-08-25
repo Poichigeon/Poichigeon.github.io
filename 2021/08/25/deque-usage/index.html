@@ -20,19 +20,22 @@
     var CONFIG = {"hostname":"poichigeon.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="好消息，好消息！ 基于Valine和LeanCloud的评论功能上线啦，欢迎各位大佬畅所欲言！">
+  <meta name="description" content="今天刷力扣的每日一题797. 所有可能的路径时，发现官方题解用到了Deque，而且用的很巧妙，我大受震撼.jpg">
 <meta property="og:type" content="article">
-<meta property="og:title" content="评论功能上线啦！">
-<meta property="og:url" content="https://poichigeon.github.io/2021/03/08/comment-published/index.html">
+<meta property="og:title" content="【算法笔记】797. 所有可能的路径">
+<meta property="og:url" content="https://poichigeon.github.io/2021/08/25/deque-usage/index.html">
 <meta property="og:site_name" content="你是无意穿堂风">
-<meta property="og:description" content="好消息，好消息！ 基于Valine和LeanCloud的评论功能上线啦，欢迎各位大佬畅所欲言！">
+<meta property="og:description" content="今天刷力扣的每日一题797. 所有可能的路径时，发现官方题解用到了Deque，而且用的很巧妙，我大受震撼.jpg">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-03-08T07:34:49.000Z">
-<meta property="article:modified_time" content="2021-03-08T07:38:23.972Z">
+<meta property="article:published_time" content="2021-08-25T08:21:12.000Z">
+<meta property="article:modified_time" content="2021-08-25T08:45:00.523Z">
 <meta property="article:author" content="Poichigeon">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="图">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://poichigeon.github.io/2021/03/08/comment-published/">
+<link rel="canonical" href="https://poichigeon.github.io/2021/08/25/deque-usage/">
 
 
 <script id="page-configurations">
@@ -45,7 +48,7 @@
   };
 </script>
 
-  <title>评论功能上线啦！ | 你是无意穿堂风</title>
+  <title>【算法笔记】797. 所有可能的路径 | 你是无意穿堂风</title>
   
 
 
@@ -161,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/03/08/comment-published/">
+    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/08/25/deque-usage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headimg.png">
@@ -174,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          评论功能上线啦！
+          【算法笔记】797. 所有可能的路径
         </h1>
 
         <div class="post-meta">
@@ -185,11 +188,11 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-03-08 15:34:49 / Modified: 15:38:23" itemprop="dateCreated datePublished" datetime="2021-03-08T15:34:49+08:00">2021-03-08</time>
+              <time title="Created: 2021-08-25 16:21:12 / Modified: 16:45:00" itemprop="dateCreated datePublished" datetime="2021-08-25T16:21:12+08:00">2021-08-25</time>
             </span>
 
           
-            <span id="/2021/03/08/comment-published/" class="post-meta-item leancloud_visitors" data-flag-title="评论功能上线啦！" title="Views">
+            <span id="/2021/08/25/deque-usage/" class="post-meta-item leancloud_visitors" data-flag-title="【算法笔记】797. 所有可能的路径" title="Views">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -204,8 +207,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2021/03/08/comment-published/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/08/comment-published/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/08/25/deque-usage/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/25/deque-usage/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -220,8 +223,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>好消息，好消息！<br>
-基于<a target="_blank" rel="noopener" href="https://valine.js.org/">Valine</a>和<a target="_blank" rel="noopener" href="https://www.leancloud.cn/">LeanCloud</a>的评论功能上线啦，欢迎各位大佬畅所欲言！</p>
+        <p>今天刷力扣的每日一题<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/all-paths-from-source-to-target/">797. 所有可能的路径</a>时，发现<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/all-paths-from-source-to-target/solution/suo-you-ke-neng-de-lu-jing-by-leetcode-s-iyoh/">官方题解</a>用到了Deque，而且用的很巧妙，我大受震撼.jpg</p>
+<span id="more"></span>
+<p>Deque简单来讲就是支持在头和尾进行插入和删除的数据结构，我直接搬出题解代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">class Solution &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; ans &#x3D; new ArrayList&lt;List&lt;Integer&gt;&gt;();</span><br><span class="line">    Deque&lt;Integer&gt; stack &#x3D; new ArrayDeque&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    public List&lt;List&lt;Integer&gt;&gt; allPathsSourceTarget(int[][] graph) &#123;</span><br><span class="line">        stack.offerLast(0);</span><br><span class="line">        dfs(graph, 0, graph.length - 1);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void dfs(int[][] graph, int x, int n) &#123;</span><br><span class="line">        if (x &#x3D;&#x3D; n) &#123;</span><br><span class="line">            ans.add(new ArrayList&lt;Integer&gt;(stack)); &#x2F;&#x2F; new一个List出来保存路径</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for (int y : graph[x]) &#123;</span><br><span class="line">            stack.offerLast(y); &#x2F;&#x2F; 把目标节点放到stack里</span><br><span class="line">            dfs(graph, y, n);</span><br><span class="line">            stack.pollLast(); &#x2F;&#x2F; 目标节点用完就扔，然后找下一个目标节点</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之前遇到这种需要记录路径的问题一直束手无策，今天真的茅塞顿开、恍然大悟，居然可以把节点用完就扔，只用一个Deque就能维护路径(虽然这题用栈就够用了，多了解一种数据结构总没毛病)</p>
 
     </div>
 
@@ -230,6 +236,11 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E5%9B%BE/" rel="tag"># 图</a>
+          </div>
 
         
 
@@ -237,13 +248,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/05/can-not-deploy/" rel="prev" title="【hexo】deploy时unable to access ...解决(需要代理工具)">
-      <i class="fa fa-chevron-left"></i> 【hexo】deploy时unable to access ...解决(需要代理工具)
+    <a href="/2021/03/10/nas-qbittorrent/" rel="prev" title="【群晖NAS】qBittorrent的安装与使用">
+      <i class="fa fa-chevron-left"></i> 【群晖NAS】qBittorrent的安装与使用
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/10/page-without-comments/" rel="next" title="【hexo】指定页面不设置评论功能">
-      【hexo】指定页面不设置评论功能 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
