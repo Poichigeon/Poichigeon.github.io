@@ -20,15 +20,24 @@
     var CONFIG = {"hostname":"poichigeon.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="你是无意穿堂风">
-<meta property="og:url" content="https://poichigeon.github.io/archives/2021/08/index.html">
+  <meta name="description" content="今天的每日一题，1109. 航班预订统计 看完描述，这算什么中等题，我直接开干。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【前缀和】差分数组的使用">
+<meta property="og:url" content="https://poichigeon.github.io/2021/08/31/flight-bookings/index.html">
 <meta property="og:site_name" content="你是无意穿堂风">
+<meta property="og:description" content="今天的每日一题，1109. 航班预订统计 看完描述，这算什么中等题，我直接开干。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://poichigeon.github.io/images/flight_bookings/1.webp">
+<meta property="og:image" content="https://poichigeon.github.io/images/flight_bookings/2.webp">
+<meta property="article:published_time" content="2021-08-31T01:30:00.000Z">
+<meta property="article:modified_time" content="2021-08-31T01:56:28.178Z">
 <meta property="article:author" content="Poichigeon">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://poichigeon.github.io/images/flight_bookings/1.webp">
 
-<link rel="canonical" href="https://poichigeon.github.io/archives/2021/08/">
+<link rel="canonical" href="https://poichigeon.github.io/2021/08/31/flight-bookings/">
 
 
 <script id="page-configurations">
@@ -36,12 +45,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Archive | 你是无意穿堂风</title>
+  <title>【前缀和】差分数组的使用 | 你是无意穿堂风</title>
   
 
 
@@ -150,76 +159,127 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/08/31/flight-bookings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headimg.png">
+      <meta itemprop="name" content="Poichigeon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="你是无意穿堂风">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【前缀和】差分数组的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-08-31 09:30:00 / Modified: 09:56:28" itemprop="dateCreated datePublished" datetime="2021-08-31T09:30:00+08:00">2021-08-31</time>
+            </span>
+
+          
+            <span id="/2021/08/31/flight-bookings/" class="post-meta-item leancloud_visitors" data-flag-title="【前缀和】差分数组的使用" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <!-- <div class="collection-title">
-        <span class="collection-header">Um..! 8 posts in total. Keep on posting.</span>
-      </div> -->
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/08/31/flight-bookings/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/31/flight-bookings/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-31T09:30:00+08:00"
-              content="2021-08-31">
-          08-31
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/08/31/flight-bookings/" itemprop="url">
-            <span itemprop="name">【前缀和】差分数组的使用</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-25T16:21:12+08:00"
-              content="2021-08-25">
-          08-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/08/25/deque-usage/" itemprop="url">
-            <span itemprop="name">【算法笔记】797. 所有可能的路径</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <p>今天的每日一题，<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/corporate-flight-bookings/">1109. 航班预订统计</a><br>
+看完描述，这算什么中等题，我直接开干。</p>
+<span id="more"></span>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[] corpFlightBookings(int[][] bookings, int n) &#123;</span><br><span class="line">        int[] answer &#x3D; new int[n];</span><br><span class="line">        for(int i &#x3D; 1; i &lt;&#x3D; n; i++)&#123;</span><br><span class="line">            for(int j &#x3D; 0; j &lt; bookings.length; j++)&#123;</span><br><span class="line">                if(i&gt;&#x3D; bookings[j][0] &amp;&amp; i &lt;&#x3D; bookings[j][1])&#123;</span><br><span class="line">                    answer[i-1] +&#x3D; bookings[j][2];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return answer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>时间复杂度O(m*n)，果不其然，一个<a target="_blank" rel="noopener" href="https://leetcode-cn.com/submissions/detail/213260558/">时的超</a>。</p>
+<p>然后稍微优化了一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[] corpFlightBookings(int[][] bookings, int n) &#123;</span><br><span class="line">        int[] answer &#x3D; new int[n];</span><br><span class="line">        for(int i &#x3D; 0; i &lt; bookings.length; i++)&#123;</span><br><span class="line">            for(int j &#x3D; bookings[i][0]; j &lt;&#x3D; bookings[i][1]; j++)&#123;</span><br><span class="line">                answer[j-1] +&#x3D; bookings[i][2];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return answer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这次的代码本质上也是O(m*n)的复杂度，不过比之前的小很多，还好过了，耗时<a target="_blank" rel="noopener" href="https://leetcode-cn.com/submissions/detail/213261828/">1631ms</a>，击败了9%的小伙伴。</p>
+<p>怎会如此.jpg，就这么一个看起来普普通通的题还能玩出花来？看看题解怎么说。<br>
+…<br>
+看完题解，我是伞兵，前缀和还能这么用的吗？<br>
+根据bookings这个数组可以得到每个航班预定座位的改变值。<br>
+再次大受震撼.jpg<br>
+<img src="/images/flight_bookings/1.webp" alt="我连续看了两次"><br>
+<img src="/images/flight_bookings/2.webp" alt="看完动弹不得"></p>
+<p>放代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[] corpFlightBookings(int[][] bookings, int n) &#123;</span><br><span class="line">        &#x2F;&#x2F; d[] 用来记录改变值</span><br><span class="line">        int[] d &#x3D; new int[n+1];</span><br><span class="line">        int[] answer &#x3D; new int[n];</span><br><span class="line"></span><br><span class="line">        for(int i &#x3D; 0; i &lt; bookings.length; i++)&#123;</span><br><span class="line">            d[bookings[i][0]-1] +&#x3D; bookings[i][2];</span><br><span class="line">            d[bookings[i][1]] -&#x3D; bookings[i][2];</span><br><span class="line">        &#125;</span><br><span class="line">        answer[0] &#x3D; d[0];</span><br><span class="line">        for( int i &#x3D; 1; i &lt; n; i++)&#123;</span><br><span class="line">            answer[i] +&#x3D; d[i]+answer[i-1];</span><br><span class="line">        &#125;</span><br><span class="line">        return answer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>O(m*n)的算法就像一条一条，有条不紊的整理好每一条记录<br>
+而题解这个O(m+n)的算法，就像一巴掌把所有记录拍在一起，但结果没有问题Orz</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/25/deque-usage/" rel="prev" title="【算法笔记】797. 所有可能的路径">
+      <i class="fa fa-chevron-left"></i> 【算法笔记】797. 所有可能的路径
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
