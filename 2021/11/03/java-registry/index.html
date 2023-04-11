@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog-favicon-240x240.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog-favicon-60x60.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog-favicon-30x30.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"poichigeon.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="¶前言 Java读取注册表的方式有很多，比如使用java API【java.util.prefs.Preferences】、使用JNA、使用JRegistry以及使用cmd命令，这些都是常见的操作注册表的方式。各有优缺点，本文不再赘述，本文需要介绍的是另一种，用纯Java代码实现的注册表读写。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="纯Java读写注册表">
+<meta property="og:url" content="https://poichigeon.github.io/2021/11/03/java-registry/index.html">
+<meta property="og:site_name" content="遇事不决，可问春风">
+<meta property="og:description" content="¶前言 Java读取注册表的方式有很多，比如使用java API【java.util.prefs.Preferences】、使用JNA、使用JRegistry以及使用cmd命令，这些都是常见的操作注册表的方式。各有优缺点，本文不再赘述，本文需要介绍的是另一种，用纯Java代码实现的注册表读写。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://poichigeon.github.io/images/java_registry/just_study.jpg">
+<meta property="article:published_time" content="2021-11-03T07:19:21.000Z">
+<meta property="article:modified_time" content="2021-11-03T08:13:53.106Z">
+<meta property="article:author" content="Poichigeon">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://poichigeon.github.io/images/java_registry/just_study.jpg">
+
+<link rel="canonical" href="https://poichigeon.github.io/2021/11/03/java-registry/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>纯Java读写注册表 | 遇事不决，可问春风</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">遇事不决，可问春风</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-guestbook">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-comments fa-fw"></i>Guestbook</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2021/11/03/java-registry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headimg.png">
+      <meta itemprop="name" content="Poichigeon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="遇事不决，可问春风">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          纯Java读写注册表
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-11-03 15:19:21 / Modified: 16:13:53" itemprop="dateCreated datePublished" datetime="2021-11-03T15:19:21+08:00">2021-11-03</time>
+            </span>
+
+          
+            <span id="/2021/11/03/java-registry/" class="post-meta-item leancloud_visitors" data-flag-title="纯Java读写注册表" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/11/03/java-registry/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/11/03/java-registry/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a class="header-anchor" href="#前言">¶</a>前言</h2>
+<p>Java读取注册表的方式有很多，比如使用java API【java.util.prefs.Preferences】、使用JNA、使用JRegistry以及使用cmd命令，这些都是常见的操作注册表的方式。各有优缺点，本文不再赘述，本文需要介绍的是另一种，用纯Java代码实现的注册表读写。</p>
+<span id="more"></span>
+<h2 id="纯Java读写注册表"><a class="header-anchor" href="#纯Java读写注册表">¶</a>纯Java读写注册表</h2>
+<p>本人也是在机缘巧合下才发现的这个代码，工作中需要读取注册表中的某个值，使用 java API无法读取对应的目录，而JNA和JRegistry又由于版本问题无法集成到我的代码中，以及我的代码运行的终端甚至无法在cmd中执行注册表命令，一筹莫展之下我发现了这篇文章<a target="_blank" rel="noopener" href="https://cmsdk.com/java/readwrite-to-windows-registry-using-java.html">read/write to Windows Registry using Java</a>。<br>
+文章开头就提出了几点要求：<br>
+·Can read/write to ANY part of the registry.<br>
+·DOES NOT USE JNI.<br>
+·DOES NOT USE ANY 3rd PARTY/EXTERNAL APPLICATIONS TO WORK.<br>
+·DOES NOT USE THE WINDOWS API (directly)<br>
+Amazing! 这不正是我需要的吗！然后我就在文章里发现了这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br></pre></td><td class="code"><pre><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line">import java.lang.reflect.InvocationTargetException;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.StringTokenizer;</span><br><span class="line">import java.util.prefs.Preferences;</span><br><span class="line"></span><br><span class="line">public class WinRegistry &#123;</span><br><span class="line">	private static final int REG_SUCCESS &#x3D; 0;</span><br><span class="line">	private static final int REG_NOTFOUND &#x3D; 2;</span><br><span class="line">	private static final int KEY_READ &#x3D; 0x20019;</span><br><span class="line">	private static final int REG_ACCESSDENIED &#x3D; 5;</span><br><span class="line">	private static final int KEY_ALL_ACCESS &#x3D; 0xf003f;</span><br><span class="line">	public static final int HKEY_CLASSES_ROOT &#x3D; 0x80000000;</span><br><span class="line">	public static final int HKEY_CURRENT_USER &#x3D; 0x80000001;</span><br><span class="line">	public static final int HKEY_LOCAL_MACHINE &#x3D; 0x80000002;</span><br><span class="line">	private static final String CLASSES_ROOT &#x3D; &quot;HKEY_CLASSES_ROOT&quot;;</span><br><span class="line">	private static final String CURRENT_USER &#x3D; &quot;HKEY_CURRENT_USER&quot;;</span><br><span class="line">	private static final String LOCAL_MACHINE &#x3D; &quot;HKEY_LOCAL_MACHINE&quot;;</span><br><span class="line">	private static Preferences userRoot &#x3D; Preferences.userRoot();</span><br><span class="line">	private static Preferences systemRoot &#x3D; Preferences.systemRoot();</span><br><span class="line">	private static Class&lt;? extends Preferences&gt; userClass &#x3D; userRoot.getClass();</span><br><span class="line">	private static Method regOpenKey &#x3D; null;</span><br><span class="line">	private static Method regCloseKey &#x3D; null;</span><br><span class="line">	private static Method regQueryValueEx &#x3D; null;</span><br><span class="line">	private static Method regEnumValue &#x3D; null;</span><br><span class="line">	private static Method regQueryInfoKey &#x3D; null;</span><br><span class="line">	private static Method regEnumKeyEx &#x3D; null;</span><br><span class="line">	private static Method regCreateKeyEx &#x3D; null;</span><br><span class="line">	private static Method regSetValueEx &#x3D; null;</span><br><span class="line">	private static Method regDeleteKey &#x3D; null;</span><br><span class="line">	private static Method regDeleteValue &#x3D; null;</span><br><span class="line">	static &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			regOpenKey &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegOpenKey&quot;,</span><br><span class="line">					new Class[] &#123; int.class, byte[].class, int.class &#125;);</span><br><span class="line">			regOpenKey.setAccessible(true);</span><br><span class="line">			regCloseKey &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegCloseKey&quot;,</span><br><span class="line">					new Class[] &#123; int.class &#125;);</span><br><span class="line">			regCloseKey.setAccessible(true);</span><br><span class="line">			regQueryValueEx &#x3D; userClass.getDeclaredMethod(</span><br><span class="line">					&quot;WindowsRegQueryValueEx&quot;, new Class[] &#123; int.class,</span><br><span class="line">							byte[].class &#125;);</span><br><span class="line">			regQueryValueEx.setAccessible(true);</span><br><span class="line">			regEnumValue &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegEnumValue&quot;,</span><br><span class="line">					new Class[] &#123; int.class, int.class, int.class &#125;);</span><br><span class="line">			regEnumValue.setAccessible(true);</span><br><span class="line">			regQueryInfoKey &#x3D; userClass.getDeclaredMethod(</span><br><span class="line">					&quot;WindowsRegQueryInfoKey1&quot;, new Class[] &#123; int.class &#125;);</span><br><span class="line">			regQueryInfoKey.setAccessible(true);</span><br><span class="line">			regEnumKeyEx &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegEnumKeyEx&quot;,</span><br><span class="line">					new Class[] &#123; int.class, int.class, int.class &#125;);</span><br><span class="line">			regEnumKeyEx.setAccessible(true);</span><br><span class="line">			regCreateKeyEx &#x3D; userClass.getDeclaredMethod(</span><br><span class="line">					&quot;WindowsRegCreateKeyEx&quot;, new Class[] &#123; int.class,</span><br><span class="line">							byte[].class &#125;);</span><br><span class="line">			regCreateKeyEx.setAccessible(true);</span><br><span class="line">			regSetValueEx &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegSetValueEx&quot;,</span><br><span class="line">					new Class[] &#123; int.class, byte[].class, byte[].class &#125;);</span><br><span class="line">			regSetValueEx.setAccessible(true);</span><br><span class="line">			regDeleteValue &#x3D; userClass.getDeclaredMethod(</span><br><span class="line">					&quot;WindowsRegDeleteValue&quot;, new Class[] &#123; int.class,</span><br><span class="line">							byte[].class &#125;);</span><br><span class="line">			regDeleteValue.setAccessible(true);</span><br><span class="line">			regDeleteKey &#x3D; userClass.getDeclaredMethod(&quot;WindowsRegDeleteKey&quot;,</span><br><span class="line">					new Class[] &#123; int.class, byte[].class &#125;);</span><br><span class="line">			regDeleteKey.setAccessible(true);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Reads value for the key from given path</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 *            HKEY_CURRENT_USER&#x2F;HKEY_LOCAL_MACHINE</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @return the value</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static String valueForKey(int hkey, String path, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException, IOException &#123;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			return valueForKey(systemRoot, hkey, path, key);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			return valueForKey(userRoot, hkey, path, key);</span><br><span class="line">		else</span><br><span class="line">			return valueForKey(null, hkey, path, key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Reads all key(s) and value(s) from given path</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 *            HKEY_CURRENT_USER&#x2F;HKEY_LOCAL_MACHINE</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @return the map of key(s) and corresponding value(s)</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static Map&lt;String, String&gt; valuesForPath(int hkey, String path)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException, IOException &#123;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			return valuesForPath(systemRoot, hkey, path);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			return valuesForPath(userRoot, hkey, path);</span><br><span class="line">		else</span><br><span class="line">			return valuesForPath(null, hkey, path);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Read all the subkey(s) from a given path</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 *            HKEY_CURRENT_USER&#x2F;HKEY_LOCAL_MACHINE</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @return the subkey(s) list</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static List&lt;String&gt; subKeysForPath(int hkey, String path)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			return subKeysForPath(systemRoot, hkey, path);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			return subKeysForPath(userRoot, hkey, path);</span><br><span class="line">		else</span><br><span class="line">			return subKeysForPath(null, hkey, path);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Create a key</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 *            HKEY_CURRENT_USER&#x2F;HKEY_LOCAL_MACHINE</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static void createKey(int hkey, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		int[] ret;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE) &#123;</span><br><span class="line">			ret &#x3D; createKey(systemRoot, hkey, key);</span><br><span class="line">			regCloseKey</span><br><span class="line">					.invoke(systemRoot, new Object[] &#123; new Integer(ret[0]) &#125;);</span><br><span class="line">		&#125; else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER) &#123;</span><br><span class="line">			ret &#x3D; createKey(userRoot, hkey, key);</span><br><span class="line">			regCloseKey.invoke(userRoot, new Object[] &#123; new Integer(ret[0]) &#125;);</span><br><span class="line">		&#125; else</span><br><span class="line">			throw new IllegalArgumentException(&quot;hkey&#x3D;&quot; + hkey);</span><br><span class="line">		if (ret[1] !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(&quot;rc&#x3D;&quot; + ret[1] + &quot;  key&#x3D;&quot; + key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Write a value in a given key&#x2F;value name</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @param valueName</span><br><span class="line">	 * @param value</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static void writeStringValue(int hkey, String key, String valueName,</span><br><span class="line">			String value) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException &#123;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			writeStringValue(systemRoot, hkey, key, valueName, value);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			writeStringValue(userRoot, hkey, key, valueName, value);</span><br><span class="line">		else</span><br><span class="line">			throw new IllegalArgumentException(&quot;hkey&#x3D;&quot; + hkey);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Delete a given key</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static void deleteKey(int hkey, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		int rc &#x3D; -1;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			rc &#x3D; deleteKey(systemRoot, hkey, key);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			rc &#x3D; deleteKey(userRoot, hkey, key);</span><br><span class="line">		if (rc !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(&quot;rc&#x3D;&quot; + rc + &quot;  key&#x3D;&quot; + key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * delete a value from a given key&#x2F;value name</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @param value</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static void deleteValue(int hkey, String key, String value)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		int rc &#x3D; -1;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			rc &#x3D; deleteValue(systemRoot, hkey, key, value);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			rc &#x3D; deleteValue(userRoot, hkey, key, value);</span><br><span class="line">		if (rc !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(&quot;rc&#x3D;&quot; + rc + &quot;  key&#x3D;&quot; + key</span><br><span class="line">					+ &quot;  value&#x3D;&quot; + value);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">	private static int deleteValue(Preferences root, int hkey, String key,</span><br><span class="line">			String value) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException &#123;</span><br><span class="line">		int[] handles &#x3D; (int[]) regOpenKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(key), new Integer(KEY_ALL_ACCESS) &#125;);</span><br><span class="line">		if (handles[1] !&#x3D; REG_SUCCESS)</span><br><span class="line">			return handles[1]; &#x2F;&#x2F; can be REG_NOTFOUND, REG_ACCESSDENIED</span><br><span class="line">		int rc &#x3D; ((Integer) regDeleteValue.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(handles[0]), toCstr(value) &#125;)).intValue();</span><br><span class="line">		regCloseKey.invoke(root, new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		return rc;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static int deleteKey(Preferences root, int hkey, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		int rc &#x3D; ((Integer) regDeleteKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(key) &#125;)).intValue();</span><br><span class="line">		return rc; &#x2F;&#x2F; can REG_NOTFOUND, REG_ACCESSDENIED, REG_SUCCESS</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static String valueForKey(Preferences root, int hkey, String path,</span><br><span class="line">			String key) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException, IOException &#123;</span><br><span class="line">		int[] handles &#x3D; (int[]) regOpenKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(path), new Integer(KEY_READ) &#125;);</span><br><span class="line">		if (handles[1] !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(</span><br><span class="line">					&quot;The system can not find the specified path: &#39;&quot;</span><br><span class="line">							+ getParentKey(hkey) + &quot;\\&quot; + path + &quot;&#39;&quot;);</span><br><span class="line">		byte[] valb &#x3D; (byte[]) regQueryValueEx.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(handles[0]), toCstr(key) &#125;);</span><br><span class="line">		regCloseKey.invoke(root, new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		return (valb !&#x3D; null ? parseValue(valb) : queryValueForKey(hkey, path,</span><br><span class="line">				key));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static String queryValueForKey(int hkey, String path, String key)</span><br><span class="line">			throws IOException &#123;</span><br><span class="line">		return queryValuesForPath(hkey, path).get(key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static Map&lt;String, String&gt; valuesForPath(Preferences root,</span><br><span class="line">			int hkey, String path) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException, IOException &#123;</span><br><span class="line">		HashMap&lt;String, String&gt; results &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">		int[] handles &#x3D; (int[]) regOpenKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(path), new Integer(KEY_READ) &#125;);</span><br><span class="line">		if (handles[1] !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(</span><br><span class="line">					&quot;The system can not find the specified path: &#39;&quot;</span><br><span class="line">							+ getParentKey(hkey) + &quot;\\&quot; + path + &quot;&#39;&quot;);</span><br><span class="line">		int[] info &#x3D; (int[]) regQueryInfoKey.invoke(root,</span><br><span class="line">				new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		int count &#x3D; info[2]; &#x2F;&#x2F; Fixed: info[0] was being used here</span><br><span class="line">		int maxlen &#x3D; info[4]; &#x2F;&#x2F; while info[3] was being used here, causing</span><br><span class="line">								&#x2F;&#x2F; wrong results</span><br><span class="line">		for (int index &#x3D; 0; index &lt; count; index++) &#123;</span><br><span class="line">			byte[] valb &#x3D; (byte[]) regEnumValue.invoke(root, new Object[] &#123;</span><br><span class="line">					new Integer(handles[0]), new Integer(index),</span><br><span class="line">					new Integer(maxlen + 1) &#125;);</span><br><span class="line">			String vald &#x3D; parseValue(valb);</span><br><span class="line">			if (valb &#x3D;&#x3D; null || vald.isEmpty())</span><br><span class="line">				return queryValuesForPath(hkey, path);</span><br><span class="line">			results.put(vald, valueForKey(root, hkey, path, vald));</span><br><span class="line">		&#125;</span><br><span class="line">		regCloseKey.invoke(root, new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		return results;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Searches recursively into the path to find the value for key. This method</span><br><span class="line">	 * gives only first occurrence value of the key. If required to get all</span><br><span class="line">	 * values in the path recursively for this key, then</span><br><span class="line">	 * &#123;@link #valuesForKeyPath(int hkey, String path, String key)&#125; should be</span><br><span class="line">	 * used.</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @param list</span><br><span class="line">	 * @return the value of given key obtained recursively</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static String valueForKeyPath(int hkey, String path, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException, IOException &#123;</span><br><span class="line">		String val;</span><br><span class="line">		try &#123;</span><br><span class="line">			val &#x3D; valuesForKeyPath(hkey, path, key).get(0);</span><br><span class="line">		&#125; catch (IndexOutOfBoundsException e) &#123;</span><br><span class="line">			throw new IllegalArgumentException(</span><br><span class="line">					&quot;The system can not find the key: &#39;&quot; + key + &quot;&#39; after &quot;</span><br><span class="line">							+ &quot;searching the specified path: &#39;&quot;</span><br><span class="line">							+ getParentKey(hkey) + &quot;\\&quot; + path + &quot;&#39;&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Searches recursively into given path for particular key and stores</span><br><span class="line">	 * obtained value in list</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @param list</span><br><span class="line">	 * @return list containing values for given key obtained recursively</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public static List&lt;String&gt; valuesForKeyPath(int hkey, String path,</span><br><span class="line">			String key) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException, IOException &#123;</span><br><span class="line">		List&lt;String&gt; list &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			return valuesForKeyPath(systemRoot, hkey, path, key, list);</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			return valuesForKeyPath(userRoot, hkey, path, key, list);</span><br><span class="line">		else</span><br><span class="line">			return valuesForKeyPath(null, hkey, path, key, list);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static List&lt;String&gt; valuesForKeyPath(Preferences root, int hkey,</span><br><span class="line">			String path, String key, List&lt;String&gt; list)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException, IOException &#123;</span><br><span class="line">		if (!isDirectory(root, hkey, path)) &#123;</span><br><span class="line">			takeValueInListForKey(hkey, path, key, list);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			List&lt;String&gt; subKeys &#x3D; subKeysForPath(root, hkey, path);</span><br><span class="line">			for (String subkey : subKeys) &#123;</span><br><span class="line">				String newPath &#x3D; path + &quot;\\&quot; + subkey;</span><br><span class="line">				if (isDirectory(root, hkey, newPath))</span><br><span class="line">					valuesForKeyPath(root, hkey, newPath, key, list);</span><br><span class="line">				takeValueInListForKey(hkey, newPath, key, list);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return list;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Takes value for key in list</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @param key</span><br><span class="line">	 * @param list</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static void takeValueInListForKey(int hkey, String path,</span><br><span class="line">			String key, List&lt;String&gt; list) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException, IOException &#123;</span><br><span class="line">		String value &#x3D; valueForKey(hkey, path, key);</span><br><span class="line">		if (value !&#x3D; null)</span><br><span class="line">			list.add(value);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Checks if the path has more subkeys or not</span><br><span class="line">	 * </span><br><span class="line">	 * @param root</span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @return true if path has subkeys otherwise false</span><br><span class="line">	 * @throws IllegalArgumentException</span><br><span class="line">	 * @throws IllegalAccessException</span><br><span class="line">	 * @throws InvocationTargetException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static boolean isDirectory(Preferences root, int hkey, String path)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		return !subKeysForPath(root, hkey, path).isEmpty();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static List&lt;String&gt; subKeysForPath(Preferences root, int hkey,</span><br><span class="line">			String path) throws IllegalArgumentException,</span><br><span class="line">			IllegalAccessException, InvocationTargetException &#123;</span><br><span class="line">		List&lt;String&gt; results &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">		int[] handles &#x3D; (int[]) regOpenKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(path), new Integer(KEY_READ) &#125;);</span><br><span class="line">		if (handles[1] !&#x3D; REG_SUCCESS)</span><br><span class="line">			throw new IllegalArgumentException(</span><br><span class="line">					&quot;The system can not find the specified path: &#39;&quot;</span><br><span class="line">							+ getParentKey(hkey) + &quot;\\&quot; + path + &quot;&#39;&quot;);</span><br><span class="line">		int[] info &#x3D; (int[]) regQueryInfoKey.invoke(root,</span><br><span class="line">				new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		int count &#x3D; info[0]; &#x2F;&#x2F; Fix: info[2] was being used here with wrong</span><br><span class="line">								&#x2F;&#x2F; results. Suggested by davenpcj, confirmed by</span><br><span class="line">								&#x2F;&#x2F; Petrucio</span><br><span class="line">		int maxlen &#x3D; info[3]; &#x2F;&#x2F; value length max</span><br><span class="line">		for (int index &#x3D; 0; index &lt; count; index++) &#123;</span><br><span class="line">			byte[] valb &#x3D; (byte[]) regEnumKeyEx.invoke(root, new Object[] &#123;</span><br><span class="line">					new Integer(handles[0]), new Integer(index),</span><br><span class="line">					new Integer(maxlen + 1) &#125;);</span><br><span class="line">			results.add(parseValue(valb));</span><br><span class="line">		&#125;</span><br><span class="line">		regCloseKey.invoke(root, new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">		return results;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static int[] createKey(Preferences root, int hkey, String key)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		return (int[]) regCreateKeyEx.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(key) &#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static void writeStringValue(Preferences root, int hkey,</span><br><span class="line">			String key, String valueName, String value)</span><br><span class="line">			throws IllegalArgumentException, IllegalAccessException,</span><br><span class="line">			InvocationTargetException &#123;</span><br><span class="line">		int[] handles &#x3D; (int[]) regOpenKey.invoke(root, new Object[] &#123;</span><br><span class="line">				new Integer(hkey), toCstr(key), new Integer(KEY_ALL_ACCESS) &#125;);</span><br><span class="line">		regSetValueEx.invoke(root, new Object[] &#123; new Integer(handles[0]),</span><br><span class="line">				toCstr(valueName), toCstr(value) &#125;);</span><br><span class="line">		regCloseKey.invoke(root, new Object[] &#123; new Integer(handles[0]) &#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Makes cmd query for the given hkey and path then executes the query</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @param path</span><br><span class="line">	 * @return the map containing all results in form of key(s) and value(s)</span><br><span class="line">	 *         obtained by executing query</span><br><span class="line">	 * @throws IOException</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static Map&lt;String, String&gt; queryValuesForPath(int hkey, String path)</span><br><span class="line">			throws IOException &#123;</span><br><span class="line">		String line;</span><br><span class="line">		StringBuilder builder &#x3D; new StringBuilder();</span><br><span class="line">		Map&lt;String, String&gt; map &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">		Process process &#x3D; Runtime.getRuntime().exec(</span><br><span class="line">				&quot;reg query \&quot;&quot; + getParentKey(hkey) + &quot;\\&quot; + path + &quot;\&quot;&quot;);</span><br><span class="line">		BufferedReader reader &#x3D; new BufferedReader(new InputStreamReader(</span><br><span class="line">				process.getInputStream()));</span><br><span class="line">		while ((line &#x3D; reader.readLine()) !&#x3D; null) &#123;</span><br><span class="line">			if (!line.contains(&quot;REG_&quot;))</span><br><span class="line">				continue;</span><br><span class="line">			StringTokenizer tokenizer &#x3D; new StringTokenizer(line, &quot; \t&quot;);</span><br><span class="line">			while (tokenizer.hasMoreTokens()) &#123;</span><br><span class="line">				String token &#x3D; tokenizer.nextToken();</span><br><span class="line">				if (token.startsWith(&quot;REG_&quot;))</span><br><span class="line">					builder.append(&quot;\t &quot;);</span><br><span class="line">				else</span><br><span class="line">					builder.append(token).append(&quot; &quot;);</span><br><span class="line">			&#125;</span><br><span class="line">			String[] arr &#x3D; builder.toString().split(&quot;\t&quot;);</span><br><span class="line">			map.put(arr[0].trim(), arr[1].trim());</span><br><span class="line">			builder.setLength(0);</span><br><span class="line">		&#125;</span><br><span class="line">		return map;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Determines the string equivalent of hkey</span><br><span class="line">	 * </span><br><span class="line">	 * @param hkey</span><br><span class="line">	 * @return string equivalent of hkey</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static String getParentKey(int hkey) &#123;</span><br><span class="line">		if (hkey &#x3D;&#x3D; HKEY_CLASSES_ROOT)</span><br><span class="line">			return CLASSES_ROOT;</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_CURRENT_USER)</span><br><span class="line">			return CURRENT_USER;</span><br><span class="line">		else if (hkey &#x3D;&#x3D; HKEY_LOCAL_MACHINE)</span><br><span class="line">			return LOCAL_MACHINE;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Intern method which adds the trailing \0 for the handle with java.dll</span><br><span class="line">	 * </span><br><span class="line">	 * @param str</span><br><span class="line">	 *            String</span><br><span class="line">	 * @return byte[]</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static byte[] toCstr(String str) &#123;</span><br><span class="line">		if (str &#x3D;&#x3D; null)</span><br><span class="line">			str &#x3D; &quot;&quot;;</span><br><span class="line">		return (str +&#x3D; &quot;\0&quot;).getBytes();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * Method removes the trailing \0 which is returned from the java.dll (just</span><br><span class="line">	 * if the last sign is a \0)</span><br><span class="line">	 * </span><br><span class="line">	 * @param buf</span><br><span class="line">	 *            the byte[] buffer which every read method returns</span><br><span class="line">	 * @return String a parsed string without the trailing \0</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	private static String parseValue(byte buf[]) &#123;</span><br><span class="line">		if (buf &#x3D;&#x3D; null)</span><br><span class="line">			return null;</span><br><span class="line">		String ret &#x3D; new String(buf);</span><br><span class="line">		if (ret.charAt(ret.length() - 1) &#x3D;&#x3D; &#39;\0&#39;)</span><br><span class="line">			return ret.substring(0, ret.length() - 1);</span><br><span class="line">		return ret;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这个方法可以读取注册表的值，需要其他方法可自行阅读代码</span><br><span class="line">&#x2F;**</span><br><span class="line">    * Reads value for the key from given path</span><br><span class="line">    * </span><br><span class="line">    * @param hkey</span><br><span class="line">    *            HKEY_CLASSES_ROOT&#x2F;HKEY_CURRENT_USER&#x2F;HKEY_LOCAL_MACHINE</span><br><span class="line">    * @param path</span><br><span class="line">    * @param key</span><br><span class="line">    * @return the value</span><br><span class="line">    * @throws IllegalArgumentException</span><br><span class="line">    * @throws IllegalAccessException</span><br><span class="line">    * @throws InvocationTargetException</span><br><span class="line">    * @throws IOException</span><br><span class="line">    *&#x2F;</span><br><span class="line">WinRegistry.valueForKey(hkey,path,key);  </span><br></pre></td></tr></table></figure>
+<p>此时此刻，只有一张图能表达我的心情<br>
+<img src="/images/java_registry/just_study.jpg" alt="学吧，学无止境，太深了"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/31/flight-bookings/" rel="prev" title="【前缀和】差分数组的使用">
+      <i class="fa fa-chevron-left"></i> 【前缀和】差分数组的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/11/how-to-use-chatgpt/" rel="next" title="了解ChatGPT：您的智能聊天助手">
+      了解ChatGPT：您的智能聊天助手 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%AFJava%E8%AF%BB%E5%86%99%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">纯Java读写注册表</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Poichigeon"
+      src="/images/headimg.png">
+  <p class="site-author-name" itemprop="name">Poichigeon</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Poichigeon" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Poichigeon" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/4628188" title="Bilibili → https:&#x2F;&#x2F;space.bilibili.com&#x2F;4628188" rel="noopener" target="_blank"><i class="fa fa-tv fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-thumbs-up fa-fw"></i>
+      大佬们
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://coder.lufer.cc/" title="https:&#x2F;&#x2F;coder.lufer.cc&#x2F;" rel="noopener" target="_blank">Lufer</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.yuque.com/grace-gu?tab=books" title="https:&#x2F;&#x2F;www.yuque.com&#x2F;grace-gu?tab&#x3D;books" rel="noopener" target="_blank">Grace</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://esportnosave.cn/" title="http:&#x2F;&#x2F;esportnosave.cn&#x2F;" rel="noopener" target="_blank">EsportNoSave</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://1ogisk.cn/" title="http:&#x2F;&#x2F;1ogisk.cn&#x2F;" rel="noopener" target="_blank">Logik</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Poichigeon</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'liwGmuYMAMqUtznuUC4yIGlg-gzGzoHsz',
+      appKey     : 'xoUI6jPyWkI4Wf0Ifb4M98Uu',
+      placeholder: "欢迎提出宝贵意见和建议",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('/n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('Successfully copied')
+          else $(this).text('Failed to copy')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('Copy')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+</body>
+</html>
