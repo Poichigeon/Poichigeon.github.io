@@ -20,15 +20,24 @@
     var CONFIG = {"hostname":"poichigeon.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="遇事不决，可问春风">
-<meta property="og:url" content="https://poichigeon.github.io/tags/%E5%9B%BE/index.html">
+  <meta name="description" content="随着 GB18030 字符集的 2022 版本发布，许多 Java 开发者可能想要知道如何在他们的项目中使用新版字符集。在本文中，我们将介绍如何在 Linux 系统和 Java 程序中更新 GB18030 字符集，并针对新版本字符集对 Java 代码进行相应调整。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Java 程序中更新和使用 GB18030-2022 字符集">
+<meta property="og:url" content="https://poichigeon.github.io/2023/04/13/gb18030-2022-java/index.html">
 <meta property="og:site_name" content="遇事不决，可问春风">
+<meta property="og:description" content="随着 GB18030 字符集的 2022 版本发布，许多 Java 开发者可能想要知道如何在他们的项目中使用新版字符集。在本文中，我们将介绍如何在 Linux 系统和 Java 程序中更新 GB18030 字符集，并针对新版本字符集对 Java 代码进行相应调整。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-13T08:51:10.335Z">
 <meta property="article:author" content="Poichigeon">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="GB18030">
+<meta property="article:tag" content="字符集">
+<meta property="article:tag" content="编码">
+<meta property="article:tag" content="JDK">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://poichigeon.github.io/tags/%E5%9B%BE/">
+<link rel="canonical" href="https://poichigeon.github.io/2023/04/13/gb18030-2022-java/">
 
 
 <script id="page-configurations">
@@ -36,12 +45,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Tag: 图 | 遇事不决，可问春风</title>
+  <title>在 Java 程序中更新和使用 GB18030-2022 字符集 | 遇事不决，可问春风</title>
   
 
 
@@ -150,57 +159,150 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://poichigeon.github.io/2023/04/13/gb18030-2022-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headimg.png">
+      <meta itemprop="name" content="Poichigeon">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="遇事不决，可问春风">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Java 程序中更新和使用 GB18030-2022 字符集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-04-13 00:00:00 / Modified: 16:51:10" itemprop="dateCreated datePublished" datetime="2023-04-13T00:00:00+08:00">2023-04-13</time>
+            </span>
+
+          
+            <span id="/2023/04/13/gb18030-2022-java/" class="post-meta-item leancloud_visitors" data-flag-title="在 Java 程序中更新和使用 GB18030-2022 字符集" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">图
-          <small>Tag</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/04/13/gb18030-2022-java/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/04/13/gb18030-2022-java/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        <p>随着 GB18030 字符集的 2022 版本发布，许多 Java 开发者可能想要知道如何在他们的项目中使用新版字符集。在本文中，我们将介绍如何在 Linux 系统和 Java 程序中更新 GB18030 字符集，并针对新版本字符集对 Java 代码进行相应调整。</p>
+<span id="more"></span>
+<h2 id="升级-Linux-系统字符集"><a class="header-anchor" href="#升级-Linux-系统字符集">¶</a>升级 Linux 系统字符集</h2>
+<ol>
+<li>
+<p>首先，确保你的 Linux 系统已更新到最新版本。你可以使用以下命令进行系统更新：</p>
+<p>对于基于 Debian 的发行版（如 Ubuntu）：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<p>对于基于 RHEL 的发行版（如 CentOS、Fedora）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update</span><br><span class="line">sudo yum upgrade</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在系统更新完成后，检查字符集文件（如 <code>/usr/share/i18n/charmaps/GB18030.gz</code>）是否已更新到 2022 版本。如果没有更新，你可能需要手动下载新版字符集文件并替换旧文件。</li>
+</ol>
+<h2 id="更新运行在-Linux-上的-Java-程序"><a class="header-anchor" href="#更新运行在-Linux-上的-Java-程序">¶</a>更新运行在 Linux 上的 Java 程序</h2>
+<ol>
+<li>
+<p>更新 JDK：确保你使用的 Java Development Kit (JDK) 已更新到支持新字符集的版本。可以通过访问 JDK 提供商的网站（如 Oracle、OpenJDK 等）获取更新。</p>
+</li>
+<li>
+<p>调整 Java 代码：检查你的 Java 程序中与编码相关的部分。如果程序中使用了 GB18030 字符集，请确保相应的编码名称已更新。通常，可以使用 “GB18030” 作为字符集名称。例如：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Charset gb18030 = Charset.forName(<span class="string">&quot;GB18030&quot;</span>);</span><br><span class="line">        <span class="comment">// 使用 gb18030 对象进行编码和解码操作</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试和验证"><a class="header-anchor" href="#测试和验证">¶</a>测试和验证</h2>
+<p>在完成上述步骤后，请对你的 Java 程序进行充分测试，确保它可以正确处理新版本 GB18030 字符集中的字符。这可能包括对文本文件的读写、与其他系统的交互、在图形用户界面中显示字符等方面的测试。</p>
+<h2 id="注意事项"><a class="header-anchor" href="#注意事项">¶</a>注意事项</h2>
+<p>对于较旧的 JDK 版本（如 JDK 1.7），它们可能不会直接支持 2022 版本的 GB18030 字符集。在这种情况下，建议升级到较新的 JDK 版本，例如 Java 11 或更高版本。升级 JDK 可能需要对现有的 Java 代码进行修改和调整，以确保兼容新版本的 JDK。</p>
+<p>总之，在 Linux   系统和 Java 程序中适配新版 GB18030 字符集需要更新系统字符集文件、升级 JDK 并检查程序中的编码设置。在完成这些操作后，进行充分的测试以确保程序能够正确处理新字符集中的字符。保持关注 JDK 更新和新字符集版本，以确保你的 Java 程序始终与最新的技术标准保持同步。</p>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>更新 GB18030-2022 字符集并在 Java 程序中使用它涉及以下步骤：</p>
+<ol>
+<li>更新 Linux 系统字符集。</li>
+<li>升级 JDK 至支持新字符集的版本。</li>
+<li>调整 Java 代码以使用新字符集。</li>
+<li>对程序进行充分的测试，确保正确处理新字符集中的字符。</li>
+</ol>
+<p>通过遵循这些步骤，你可以确保你的 Java 程序适应最新的 GB18030 字符集，为用户提供更好的跨语言和跨文化支持。同时，升级 JDK 也可以帮助你利用最新的 Java 功能和性能优化，提高程序的质量和稳定性。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-25T16:21:12+08:00"
-              content="2021-08-25">
-          08-25
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/GB18030/" rel="tag"># GB18030</a>
+              <a href="/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" rel="tag"># 字符集</a>
+              <a href="/tags/%E7%BC%96%E7%A0%81/" rel="tag"># 编码</a>
+              <a href="/tags/JDK/" rel="tag"># JDK</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/08/25/deque-usage/" itemprop="url">
-            <span itemprop="name">【算法笔记】797. 所有可能的路径</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/11/how-to-use-chatgpt/" rel="prev" title="了解ChatGPT：您的智能聊天助手">
+      <i class="fa fa-chevron-left"></i> 了解ChatGPT：您的智能聊天助手
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -247,6 +349,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7-Linux-%E7%B3%BB%E7%BB%9F%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">升级 Linux 系统字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%BF%90%E8%A1%8C%E5%9C%A8-Linux-%E4%B8%8A%E7%9A%84-Java-%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">更新运行在 Linux 上的 Java 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="nav-number">3.</span> <span class="nav-text">测试和验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
